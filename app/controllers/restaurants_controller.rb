@@ -1,10 +1,23 @@
 class RestaurantsController < ApplicationController
+
+  def chef
+    @restaurant = Restaurant.find(params[:id])
+    # render 'chef.html.erb'
+  end
+
+  def top
+    # load all of the info we need
+    @restaurants = Restaurant.where(rating: 5)
+    # we render a view (by default, it shows the view with same name as action)
+  end
+
   def index
     @restaurants = Restaurant.all
   end
 
   def show
     @restaurant = Restaurant.find(params[:id])
+    @review = Review.new
   end
 
   def new
@@ -45,6 +58,6 @@ class RestaurantsController < ApplicationController
 
   def restaurant_params
     # Strong params - whitelisting the params i want to accept
-    params.require(:restaurant).permit(:name, :address, :rating)
+    params.require(:restaurant).permit(:name, :address, :rating, :category)
   end
 end

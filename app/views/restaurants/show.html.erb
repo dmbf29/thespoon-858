@@ -20,8 +20,26 @@
         </p>
       </div>
       <p class="fw-lighter opacity-75 mt-2"><%= Faker::Restaurant.description  %></p>
+      <h3>Reviews</h3>
+      <% if @restaurant.reviews.any? %>
+        <ul>
+          <% @restaurant.reviews.each do |review| %>
+            <div class="d-flex">
+              <li><%= review.content %></li>
+              <%= link_to 'x', review_path(review), method: :delete, data: { confirm: 'Delete review?' }, class: 'ms-2 btn-light' %>
+            </div>
+          <% end %>
+        </ul>
+      <% else %>
+        <%= link_to "Be the first to review!", new_restaurant_review_path(@restaurant), class: 'btn btn-light' %>
+      <% end %>
     </div>
     <div class="col-12 col-sm-4 mt-5">
+      <h1>Add Review</h1>
+      <%= simple_form_for [@restaurant, @review] do |f| %>
+        <%= f.input :content %>
+        <%= f.submit class: 'btn btn-primary mt-2' %>
+      <% end %>
       <%= render 'restaurants/side_info' %>
     </p>
   </div>
