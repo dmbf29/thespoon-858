@@ -1,18 +1,16 @@
 class ReviewsController < ApplicationController
 
-  def new
-    @review = Review.new
-    @restaurant = Restaurant.find(params[:restaurant_id])
-  end
-
   def create
     @restaurant = Restaurant.find(params[:restaurant_id])
     @review = Review.new(review_params)
     @review.restaurant = @restaurant
     if @review.save
-      redirect_to restaurant_path(@review.restaurant)
+      respond_to do |format|
+        format.html { redirect_to restaurant_path(@review.restaurant, anchor: "review-#{@review.id}") }
+        format.js # look for a JS view with the same action name
+      end
     else
-      render :new
+      render 'restaurants/show'
     end
   end
 

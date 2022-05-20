@@ -1,0 +1,16 @@
+console.log("hello from the weird JS view");
+
+function insertReview() {
+  const reviews = document.getElementById("reviews");
+  reviews.insertAdjacentHTML(
+    "beforeend",
+    "<%= j render 'reviews/review', review: @review %>"
+  );
+}
+
+function emptyForm(); {
+  document.getElementById("review_content").value = "";
+}
+
+insertReview();
+emptyForm();
